@@ -20,7 +20,8 @@ if (isset($_POST['add'])) {
     if (!empty($exercise_name) && $duration > 0 && $calories > 0 && !empty($date)) {
         $stmt = $pdo->prepare("INSERT INTO exercises (user_id, exercise_name, duration_minutes, calories_burned, date) VALUES (?, ?, ?, ?, ?)");
         if ($stmt->execute([$user_id, $exercise_name, $duration, $calories, $date])) {
-            $message = "Exercise added successfully!";
+            header("Location: module1.php?success=added");
+            exit;
         }
     } else {
         $message = "Please fill all fields correctly.";
@@ -32,7 +33,8 @@ if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];
     $stmt = $pdo->prepare("DELETE FROM exercises WHERE id = ? AND user_id = ?");
     $stmt->execute([$id, $user_id]);
-    $message = "Exercise deleted.";
+    header("Location: module1.php?success=deleted");
+    exit;
 }
 
 // Handle Edit (Update)
@@ -45,7 +47,24 @@ if (isset($_POST['update'])) {
 
     $stmt = $pdo->prepare("UPDATE exercises SET exercise_name=?, duration_minutes=?, calories_burned=?, date=? WHERE id=? AND user_id=?");
     if ($stmt->execute([$exercise_name, $duration, $calories, $date, $id, $user_id])) {
-        $message = "Exercise updated successfully!";
+        header("Location: module1.php?success=updated");
+        exit;
+    }
+}
+
+// Handle success messages from redirects
+$message = "";
+if (isset($_GET['success'])) {
+    switch ($_GET['success']) {
+        case 'added':
+            $message = "Exercise added successfully!";
+            break;
+        case 'deleted':
+            $message = "Exercise deleted.";
+            break;
+        case 'updated':
+            $message = "Exercise updated successfully!";
+            break;
     }
 }
 
@@ -57,11 +76,9 @@ $allowedSort = [
     'duration' => 'duration_minutes',
 ];
 $sortParam = isset($_GET['sort']) ? strtolower($_GET['sort']) : 'date';
-$orderParam = isset($_GET['order']) ? strtoupper($_GET['order']) : 'DESC';
 $sortColumn = $allowedSort[$sortParam] ?? 'date';
-$orderDirection = ($orderParam === 'ASC' || $orderParam === 'DESC') ? $orderParam : 'DESC';
 
-$stmt = $pdo->prepare("SELECT * FROM exercises WHERE user_id = ? ORDER BY {$sortColumn} {$orderDirection}");
+$stmt = $pdo->prepare("SELECT * FROM exercises WHERE user_id = ? ORDER BY {$sortColumn} DESC");
 $stmt->execute([$user_id]);
 $exercises = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

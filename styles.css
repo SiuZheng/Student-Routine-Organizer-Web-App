@@ -41,7 +41,7 @@ body {
     box-shadow: var(--shadow);
     padding: 40px;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -368,7 +368,6 @@ input[type="date"]:focus {
 .top-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .top-bar h2 { margin: 0; }
 /* Sorting controls */
-.sort-form { display: none; }
 .sort-pills { display: flex; gap: 8px; margin: 8px 0 12px; flex-wrap: wrap; }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: var(--background-light); color: var(--text-dark); text-decoration: none; border: 1px solid #e1e5e9; font-weight: 600; }
 .pill:hover { background: #eef2f6; }

@@ -19,19 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($password !== $confirm) {
         $error = "Passwords do not match.";
     } else {
-        // Check if email already exists
-        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-        $stmt->execute([$email]);
+        // Check if username already exists
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+        $stmt->execute([$username]);
         if ($stmt->fetch()) {
-            $error = "Email already registered.";
+            $error = "Username already taken. Please choose a different one.";
         } else {
-            // Hash password & insert into DB
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-            if ($stmt->execute([$username, $email, $hashedPassword])) {
-                $success = "Registration successful! <a href='index.php'>Login here</a>.";
+            // Check if email already exists
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            if ($stmt->fetch()) {
+                $error = "Email already registered.";
             } else {
-                $error = "Registration failed. Please try again.";
+                // Hash password & insert into DB
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+                if ($stmt->execute([$username, $email, $hashedPassword])) {
+                    $success = "Registration successful! <a href='index.php'>Login here</a>.";
+                } else {
+                    $error = "Registration failed. Please try again.";
+                }
             }
         }
     }
