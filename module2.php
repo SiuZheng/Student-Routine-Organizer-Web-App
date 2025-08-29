@@ -49,10 +49,22 @@ if (isset($_POST['add'])) {
 // Handle Delete
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];
-    $stmt = $pdo->prepare("DELETE FROM diary_entries WHERE id = ? AND user_id = ?");
+    
+    // First, get the attachment path before deleting the entry
+    $stmt = $pdo->prepare("SELECT attachment_path FROM diary_entries WHERE id = ? AND user_id = ?");
     $stmt->execute([$id, $user_id]);
-    header("Location: module2.php?success=deleted");
-    exit;
+    $entry = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    // Delete the diary entry
+    $stmt = $pdo->prepare("DELETE FROM diary_entries WHERE id = ? AND user_id = ?");
+    if ($stmt->execute([$id, $user_id])) {
+        // If there was an attachment, delete the physical file
+        if ($entry && !empty($entry['attachment_path']) && file_exists($entry['attachment_path'])) {
+            unlink($entry['attachment_path']);
+        }
+        header("Location: module2.php?success=deleted");
+        exit;
+    }
 }
 
 // Handle Edit (Update)
