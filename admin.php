@@ -336,11 +336,7 @@ $recent_activities = $recent_stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="admin-navigation">
-            <a href="dashboard.php" class="btn btn-secondary">← Back to Dashboard</a>
-            <a href="logout.php" class="btn btn-orange">Logout</a>
-        </div>
+
     </div>
 
     <script>

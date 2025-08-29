@@ -30,12 +30,46 @@ if (!isset($_SESSION['user_id'])) {
         // Check if user is admin (hardcoded only)
         $is_admin = $is_hardcoded_admin;
         
+        // Handle user deletion for admin
+        if ($is_admin && (isset($_GET['delete_user']) || isset($_POST['delete_user']))) {
+            $user_id_to_delete = (int) ($_GET['delete_user'] ?? $_POST['delete_user']);
+            
+            // Don't allow admin to delete themselves
+            if ($user_id_to_delete != $_SESSION['user_id']) {
+                try {
+                    require 'db.php';
+                    // Delete user and all related data (CASCADE will handle this)
+                    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+                    if ($stmt->execute([$user_id_to_delete])) {
+                        $delete_message = "User deleted successfully!";
+                        $delete_message_type = "success";
+                    } else {
+                        $delete_message = "Error deleting user.";
+                        $delete_message_type = "error";
+                    }
+                } catch (PDOException $e) {
+                    $delete_message = "Error deleting user: " . $e->getMessage();
+                    $delete_message_type = "error";
+                }
+            } else {
+                $delete_message = "You cannot delete your own account!";
+                $delete_message_type = "error";
+            }
+        }
+        
         if ($is_admin): ?>
             <!-- Direct Admin Dashboard Content -->
             <div class="welcome-section">
                 <h2>Welcome, <?= htmlspecialchars($_SESSION['username']) ?>! 👑</h2>
                 <p>System Administration Dashboard - Monitor and manage the platform</p>
             </div>
+            
+            <?php if (isset($delete_message)): ?>
+                <div class="alert alert-<?= $delete_message_type ?>">
+                    <span><?= htmlspecialchars($delete_message) ?></span>
+                    <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            <?php endif; ?>
             
             <?php
             // Load admin data directly
@@ -327,19 +361,8 @@ if (!isset($_SESSION['user_id'])) {
     <script>
         function deleteUser(userId, username) {
             if (confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone and will remove all their data.`)) {
-                // Create a form to submit the delete request
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = 'admin.php';
-                
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'delete_user';
-                input.value = userId;
-                
-                form.appendChild(input);
-                document.body.appendChild(form);
-                form.submit();
+                // Submit delete request directly to dashboard.php
+                window.location.href = `?delete_user=${userId}`;
             }
         }
     </script>
