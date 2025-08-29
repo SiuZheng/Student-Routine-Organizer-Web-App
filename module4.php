@@ -337,7 +337,6 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
                         <input type="date" id="date" name="date" value="<?= date('Y-m-d') ?>" required>
                     </div>
                 </div>
-                
                 <div class="form-group full-width">
                     <label for="habit_description">Description (Optional)</label>
                     <textarea id="habit_description" name="habit_description" rows="3" placeholder="Add details about your habit..."></textarea>
