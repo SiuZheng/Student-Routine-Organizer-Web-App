@@ -345,7 +345,6 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
                 <button type="submit" name="add" class="btn">Add Habit</button>
             </form>
         </div>
-
         <div class="habits-section">
             <div class="section-header">
                 <h3>Your Habits</h3>
