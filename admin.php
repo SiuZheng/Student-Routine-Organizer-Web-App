@@ -18,7 +18,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === $hardcoded_admin['email'
     $is_hardcoded_admin = true;
 }
 
-// Check database admin field for additional admins
+// Check database admin field for additional admins (optional for future use)
 $admin_check = $pdo->prepare("SELECT is_admin FROM users WHERE id = ?");
 $admin_check->execute([$_SESSION['user_id']]);
 $user_data = $admin_check->fetch();

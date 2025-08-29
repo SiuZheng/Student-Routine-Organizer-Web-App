@@ -213,13 +213,13 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
                         <button class="filter-btn" onclick="filterHabits('pending')">Pending</button>
                         <button class="filter-btn" onclick="filterHabits('done')">Completed</button>
                     </div>
-                </div>
+        </div>
+        
 
-
-
+        
                 <!-- Add Habit Form (Hidden by default) -->
                 <div class="habit-form-section" id="habitFormSection" style="display: none;">
-                    <div class="form-section">
+        <div class="form-section">
                         <h3>Add New Habit</h3>
                         <form method="POST" class="habit-form">
                             <div class="form-row">
@@ -331,12 +331,12 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
                     </div>
                 </div>
             </div>
-    </div>
-
+        </div>
+        
     <!-- Back to Dashboard Button - Bottom Center -->
     <div class="back-section-bottom">
-        <a href="dashboard.php" class="link">← Back to Dashboard</a>
-    </div>
+            <a href="dashboard.php" class="link">← Back to Dashboard</a>
+        </div>
 
     <script>
         function toggleStatus(id) {
@@ -374,7 +374,7 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
                     <div class="form-actions">
                         <button type="submit" name="update" class="btn">Update Habit</button>
                         <button type="button" class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
-                    </div>
+    </div>
                 </form>
             `;
             

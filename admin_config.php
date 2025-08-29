@@ -7,7 +7,7 @@
  */
 
 return [
-    // Hardcoded Admin Credentials
+    // Hardcoded Admin Credentials - Primary admin access
     'hardcoded_admin' => [
         'email' => 'lee@gmail.com',
         'password' => '123',

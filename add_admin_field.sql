@@ -7,8 +7,5 @@ USE student_routine_db;
 ALTER TABLE users 
 ADD COLUMN is_admin BOOLEAN DEFAULT FALSE AFTER password;
 
--- Set user ID 1 as admin (modify this as needed)
-UPDATE users SET is_admin = TRUE WHERE id = 1;
-
 -- Verify the change
 SELECT id, username, email, is_admin FROM users;

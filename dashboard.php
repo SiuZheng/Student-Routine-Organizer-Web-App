@@ -27,8 +27,8 @@ if (!isset($_SESSION['user_id'])) {
         
         $is_hardcoded_admin = isset($_SESSION['email']) && $_SESSION['email'] === $hardcoded_admin['email'];
         
-        // Check if user is admin (hardcoded OR database)
-        $is_admin = $is_hardcoded_admin || ($_SESSION['user_id'] == 1);
+        // Check if user is admin (hardcoded only)
+        $is_admin = $is_hardcoded_admin;
         
         if ($is_admin): ?>
             <!-- Direct Admin Dashboard Content -->
