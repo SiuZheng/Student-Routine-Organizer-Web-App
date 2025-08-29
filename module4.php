@@ -110,185 +110,6 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habit Tracker - Learning Platform</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-blue));
-            color: var(--white);
-            padding: 20px;
-            border-radius: var(--border-radius-small);
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-        
-        .stat-card h4 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-card p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .habit-item {
-            background: var(--white);
-            border: 2px solid #e1e5e9;
-            border-radius: var(--border-radius-small);
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-        
-        .habit-item:hover {
-            border-color: var(--primary-green);
-            transform: translateY(-2px);
-        }
-        
-        .habit-item.done {
-            border-color: var(--primary-green);
-            background: linear-gradient(135deg, #f0fff0, #e6ffe6);
-        }
-        
-        .habit-item.pending {
-            border-color: var(--accent-orange);
-        }
-        
-        .habit-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .habit-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-        
-        .habit-status {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .status-done {
-            background: var(--primary-green);
-            color: var(--white);
-        }
-        
-        .status-pending {
-            background: var(--accent-orange);
-            color: var(--white);
-        }
-        
-        .habit-description {
-            color: var(--text-light);
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-        
-        .habit-date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-        
-        .habit-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        
-        .btn-toggle {
-            background: var(--secondary-blue);
-            color: var(--white);
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--border-radius-small);
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-toggle:hover {
-            background: var(--secondary-blue-hover);
-            transform: translateY(-2px);
-        }
-        
-        .btn-toggle.done {
-            background: var(--primary-green);
-        }
-        
-        .btn-toggle.done:hover {
-            background: var(--primary-green-hover);
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-        
-        .habits-section {
-            margin-top: 30px;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid var(--primary-green);
-            background: transparent;
-            color: var(--primary-green);
-            border-radius: var(--border-radius-small);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn.active,
-        .filter-btn:hover {
-            background: var(--primary-green);
-            color: var(--white);
-        }
-        
-        .no-habits {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-light);
-        }
-        
-        .no-habits h4 {
-            margin-bottom: 10px;
-            color: var(--text-dark);
-        }
-    </style>
 </head>
 <body>
     <div class="container dashboard-container">
@@ -303,104 +124,218 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
             <div class="alert alert-<?= $message_type ?>"><?= htmlspecialchars($message) ?></div>
         <?php endif; ?>
 
-        <!-- Statistics Section -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h4><?= $total_habits ?></h4>
-                <p>Total Habits</p>
-            </div>
-            <div class="stat-card">
-                <h4><?= $completed_today ?></h4>
-                <p>Completed Today</p>
-            </div>
-            <div class="stat-card">
-                <h4><?= $pending_today ?></h4>
-                <p>Pending Today</p>
-            </div>
-            <div class="stat-card">
-                <h4><?= $completion_rate ?>%</h4>
-                <p>Today's Progress</p>
-            </div>
-        </div>
+        <!-- Two Column Layout -->
+        <div class="habit-dashboard-layout">
+            <!-- Left Sidebar - Statistics Widgets -->
+            <div class="habit-sidebar">
+                <!-- Total Habits Widget -->
+                <div class="sidebar-widget">
+                    <div class="widget-header">
+                        <h4>📊 Total Habits</h4>
+                    </div>
+                    <div class="widget-content">
+                        <div class="widget-number"><?= $total_habits ?></div>
+                        <div class="widget-label">Active Habits</div>
+                    </div>
+                </div>
 
-        <div class="form-section">
-            <h3>Add New Habit</h3>
-            <form method="POST" class="habit-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="habit_name">Habit Name *</label>
-                        <input type="text" id="habit_name" name="habit_name" placeholder="e.g., Drink 8 glasses of water" required>
+                <!-- Completed Today Widget -->
+                <div class="sidebar-widget">
+                    <div class="widget-header">
+                        <h4>✅ Completed Today</h4>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="date">Date *</label>
-                        <input type="date" id="date" name="date" value="<?= date('Y-m-d') ?>" required>
+                    <div class="widget-content">
+                        <div class="widget-number"><?= $completed_today ?></div>
+                        <div class="widget-label">Tasks Done</div>
                     </div>
                 </div>
-                <div class="form-group full-width">
-                    <label for="habit_description">Description (Optional)</label>
-                    <textarea id="habit_description" name="habit_description" rows="3" placeholder="Add details about your habit..."></textarea>
-                </div>
-                
-                <button type="submit" name="add" class="btn">Add Habit</button>
-            </form>
-        </div>
-        <div class="habits-section">
-            <div class="section-header">
-                <h3>Your Habits</h3>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" onclick="filterHabits('all')">All</button>
-                    <button class="filter-btn" onclick="filterHabits('today')">Today</button>
-                    <button class="filter-btn" onclick="filterHabits('pending')">Pending</button>
-                    <button class="filter-btn" onclick="filterHabits('done')">Completed</button>
-                </div>
-            </div>
-            
-            <?php if (empty($habits)): ?>
-                <div class="no-habits">
-                    <h4>🎯 No habits yet!</h4>
-                    <p>Start building positive routines by adding your first habit above.</p>
-                </div>
-            <?php else: ?>
-                <div class="habits-list">
-                    <?php foreach ($habits as $habit): ?>
-                        <div class="habit-item <?= $habit['status'] ?>" data-status="<?= $habit['status'] ?>" data-date="<?= $habit['date'] ?>">
-                            <div class="habit-header">
-                                <div class="habit-name"><?= htmlspecialchars($habit['habit_name']) ?></div>
-                                <span class="habit-status status-<?= $habit['status'] ?>">
-                                    <?= ucfirst($habit['status']) ?>
-                                </span>
+
+                <!-- Progress Chart Widget -->
+                <div class="sidebar-widget progress-widget">
+                    <div class="widget-header">
+                        <h4>📊 Progress Overview</h4>
+                    </div>
+                    <div class="widget-content">
+                        <!-- Today's Progress Bar -->
+                        <div class="sidebar-progress-item">
+                            <div class="sidebar-progress-label">Today's Progress</div>
+                            <div class="sidebar-progress-bar">
+                                <div class="sidebar-progress-fill <?= $completed_today > 0 ? 'completed' : 'pending' ?>" 
+                                     style="width: <?= $completion_rate ?>%"></div>
                             </div>
-                            
-                            <?php if (!empty($habit['habit_description'])): ?>
-                                <div class="habit-description"><?= htmlspecialchars($habit['habit_description']) ?></div>
-                            <?php endif; ?>
-                            
-                            <div class="habit-date">
-                                📅 <?= date('M j, Y', strtotime($habit['date'])) ?>
-                                <?php if ($habit['date'] === $today): ?>
-                                    <span style="color: var(--primary-green); font-weight: 600;">(Today)</span>
-                                <?php endif; ?>
-                            </div>
-                            
-                            <div class="habit-actions">
-                                <button class="btn-toggle <?= $habit['status'] ?>" 
-                                        onclick="toggleStatus(<?= $habit['id'] ?>)">
-                                    <?= $habit['status'] === 'done' ? '✓ Mark Pending' : '✓ Mark Done' ?>
-                                </button>
-                                <button class="btn btn-secondary btn-small" onclick="editHabit(<?= $habit['id'] ?>)">Edit</button>
-                                <a href="?delete=<?= $habit['id'] ?>" class="btn btn-orange btn-small" 
-                                   onclick="return confirm('Delete this habit?')">Delete</a>
-                            </div>
+                            <div class="sidebar-progress-text"><?= $completion_rate ?>%</div>
                         </div>
-                    <?php endforeach; ?>
+                        
+                        <!-- Completion Rate -->
+                        <div class="sidebar-progress-item">
+                            <div class="sidebar-progress-label">Completion Rate</div>
+                            <div class="sidebar-progress-bar">
+                                <div class="sidebar-progress-fill completed" 
+                                     style="width: <?= min(100, ($completed_today / max(1, $total_habits)) * 100) ?>%"></div>
+                            </div>
+                            <div class="sidebar-progress-text"><?= $completed_today ?>/<?= $total_habits ?></div>
+                        </div>
+                        
+                        <!-- Pending Tasks -->
+                        <div class="sidebar-progress-item">
+                            <div class="sidebar-progress-label">Pending Tasks</div>
+                            <div class="sidebar-progress-bar">
+                                <div class="sidebar-progress-fill pending" 
+                                     style="width: <?= ($completed_today + $pending_today) > 0 ? ($pending_today / ($completed_today + $pending_today)) * 100 : 0 ?>%"></div>
+                            </div>
+                            <div class="sidebar-progress-text"><?= $pending_today ?></div>
+                        </div>
+                    </div>
                 </div>
-            <?php endif; ?>
-        </div>
 
-        <div class="back-section">
-            <a href="dashboard.php" class="link">← Back to Dashboard</a>
-        </div>
+                <!-- Add Habit Button -->
+                <div class="sidebar-widget add-habit-widget">
+                    <button class="add-habit-btn" onclick="toggleHabitForm()">
+                        ✨ Add New Habit
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Main Panel - Habits Display -->
+            <div class="habit-main-panel">
+                <!-- Header with Date Selector and Filters -->
+                <div class="main-panel-header">
+                    <div class="header-left">
+                        <h3>Your Habits</h3>
+                        <div class="date-selector">
+                            <label for="habit_date">Date:</label>
+                            <input type="date" id="habit_date" value="<?= date('Y-m-d') ?>" onchange="filterHabitsByDate(this.value)">
+                        </div>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="filterHabits('all')">All</button>
+                        <button class="filter-btn" onclick="filterHabits('today')">Today</button>
+                        <button class="filter-btn" onclick="filterHabits('pending')">Pending</button>
+                        <button class="filter-btn" onclick="filterHabits('done')">Completed</button>
+                    </div>
+                </div>
+
+
+
+                <!-- Add Habit Form (Hidden by default) -->
+                <div class="habit-form-section" id="habitFormSection" style="display: none;">
+                    <div class="form-section">
+                        <h3>Add New Habit</h3>
+                        <form method="POST" class="habit-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="habit_name">Habit Name *</label>
+                                    <input type="text" id="habit_name" name="habit_name" placeholder="e.g., Drink 8 glasses of water" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="date">Date *</label>
+                                    <input type="date" id="date" name="date" value="<?= date('Y-m-d') ?>" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="habit_description">Description (Optional)</label>
+                                <textarea id="habit_description" name="habit_description" rows="3" placeholder="Add details about your habit..."></textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" name="add" class="btn">Add Habit</button>
+                                <button type="button" class="btn btn-secondary" onclick="toggleHabitForm()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Habits by Category -->
+                <div class="habits-categories">
+                    <!-- Daily Habits Section -->
+                    <div class="category-section">
+                        <div class="category-header daily-header">
+                            <h4>📅 Daily Habits</h4>
+                            <span class="category-count"><?= count(array_filter($habits, function($h) use ($today) { return $h['date'] === $today; })) ?> habits</span>
+                        </div>
+                        <div class="habits-grid">
+                            <?php 
+                            $daily_habits = array_filter($habits, function($h) use ($today) { return $h['date'] === $today; });
+                            if (empty($daily_habits)): ?>
+                                <div class="no-habits">
+                                    <p>No daily habits for today. Add some above!</p>
+                                </div>
+                            <?php else: ?>
+                                <?php foreach ($daily_habits as $habit): ?>
+                                    <div class="habit-card <?= $habit['status'] ?>" data-status="<?= $habit['status'] ?>" data-date="<?= $habit['date'] ?>">
+                                        <div class="habit-card-content">
+                                            <div class="habit-name"><?= htmlspecialchars($habit['habit_name']) ?></div>
+                                            <?php if (!empty($habit['habit_description'])): ?>
+                                                <div class="habit-description"><?= htmlspecialchars($habit['habit_description']) ?></div>
+                                            <?php endif; ?>
+                                            <div class="habit-meta">
+                                                <span class="habit-date">📅 <?= date('M j, Y', strtotime($habit['date'])) ?></span>
+                                                <span class="habit-status-badge status-<?= $habit['status'] ?>"><?= ucfirst($habit['status']) ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="habit-actions">
+                                            <button class="btn-toggle <?= $habit['status'] ?>" 
+                                                    onclick="toggleStatus(<?= $habit['id'] ?>)">
+                                                <?= $habit['status'] === 'done' ? '✓' : '○' ?>
+                                            </button>
+                                            <button class="btn btn-secondary btn-small" onclick="editHabit(<?= $habit['id'] ?>)">Edit</button>
+                                            <a href="?delete=<?= $habit['id'] ?>" class="btn btn-orange btn-small" 
+                                               onclick="return confirm('Delete this habit?')">Delete</a>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- All Habits Section -->
+                    <div class="category-section">
+                        <div class="category-header all-header">
+                            <h4>📋 All Habits</h4>
+                            <span class="category-count"><?= count($habits) ?> total</span>
+                        </div>
+                        <div class="habits-grid">
+                            <?php if (empty($habits)): ?>
+                                <div class="no-habits">
+                                    <h4>🎯 No habits yet!</h4>
+                                    <p>Start building positive routines by adding your first habit above.</p>
+                                </div>
+                            <?php else: ?>
+                                <?php foreach ($habits as $habit): ?>
+                                    <div class="habit-card <?= $habit['status'] ?>" data-status="<?= $habit['status'] ?>" data-date="<?= $habit['date'] ?>">
+                                        <div class="habit-card-content">
+                                            <div class="habit-name"><?= htmlspecialchars($habit['habit_name']) ?></div>
+                                            <?php if (!empty($habit['habit_description'])): ?>
+                                                <div class="habit-description"><?= htmlspecialchars($habit['habit_description']) ?></div>
+                                            <?php endif; ?>
+                                            <div class="habit-meta">
+                                                <span class="habit-date">📅 <?= date('M j, Y', strtotime($habit['date'])) ?></span>
+                                                <span class="habit-status-badge status-<?= $habit['status'] ?>"><?= ucfirst($habit['status']) ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="habit-actions">
+                                            <button class="btn-toggle <?= $habit['status'] ?>" 
+                                                    onclick="toggleStatus(<?= $habit['id'] ?>)">
+                                                <?= $habit['status'] === 'done' ? '✓' : '○' ?>
+                                            </button>
+                                            <button class="btn btn-secondary btn-small" onclick="editHabit(<?= $habit['id'] ?>)">Edit</button>
+                                            <a href="?delete=<?= $habit['id'] ?>" class="btn btn-orange btn-small" 
+                                               onclick="return confirm('Delete this habit?')">Delete</a>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Back to Dashboard Button - Bottom Center -->
+    <div class="back-section-bottom">
+        <a href="dashboard.php" class="link">← Back to Dashboard</a>
     </div>
 
     <script>
@@ -409,11 +344,11 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
         }
         
         function editHabit(id) {
-            // Find the habit item
-            const habitItem = event.target.closest('.habit-item');
-            const habitName = habitItem.querySelector('.habit-name').textContent;
-            const habitDescription = habitItem.querySelector('.habit-description')?.textContent || '';
-            const habitDate = habitItem.querySelector('.habit-date').textContent.match(/📅 (.+)/)[1];
+            // Find the habit card
+            const habitCard = event.target.closest('.habit-card');
+            const habitName = habitCard.querySelector('.habit-name').textContent;
+            const habitDescription = habitCard.querySelector('.habit-description')?.textContent || '';
+            const habitDate = habitCard.querySelector('.habit-date').textContent.match(/📅 (.+)/)[1];
             
             // Create edit form
             const editForm = `
@@ -436,23 +371,33 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
                         <textarea id="edit_habit_description" name="habit_description" rows="3">${habitDescription}</textarea>
                     </div>
                     
-                    <div class="habit-actions">
+                    <div class="form-actions">
                         <button type="submit" name="update" class="btn">Update Habit</button>
                         <button type="button" class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
                     </div>
                 </form>
             `;
             
-            // Replace habit item with edit form
-            habitItem.innerHTML = editForm;
+            // Replace habit card with edit form
+            habitCard.innerHTML = editForm;
         }
         
         function cancelEdit() {
             location.reload();
         }
         
+        function toggleHabitForm() {
+            const formSection = document.getElementById('habitFormSection');
+            if (formSection.style.display === 'none') {
+                formSection.style.display = 'block';
+                formSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                formSection.style.display = 'none';
+            }
+        }
+        
         function filterHabits(filter) {
-            const habits = document.querySelectorAll('.habit-item');
+            const habitCards = document.querySelectorAll('.habit-card');
             const filterButtons = document.querySelectorAll('.filter-btn');
             
             // Update active filter button
@@ -461,9 +406,9 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
             
             const today = new Date().toISOString().split('T')[0];
             
-            habits.forEach(habit => {
-                const status = habit.dataset.status;
-                const date = habit.dataset.date;
+            habitCards.forEach(card => {
+                const status = card.dataset.status;
+                const date = card.dataset.date;
                 
                 let show = true;
                 
@@ -481,7 +426,17 @@ $completion_rate = ($completed_today + $pending_today) > 0 ? round(($completed_t
                         show = true;
                 }
                 
-                habit.style.display = show ? 'block' : 'none';
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+        
+        function filterHabitsByDate(date) {
+            const habitCards = document.querySelectorAll('.habit-card');
+            const selectedDate = new Date(date).toISOString().split('T')[0];
+            
+            habitCards.forEach(card => {
+                const cardDate = card.dataset.date;
+                card.style.display = (cardDate === selectedDate) ? 'block' : 'none';
             });
         }
     </script>

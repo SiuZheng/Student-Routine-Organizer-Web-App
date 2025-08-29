@@ -15,11 +15,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['password'])) {
-            // Save user in session
+        // Load admin configuration
+        $admin_config = require 'admin_config.php';
+        $hardcoded_admin = $admin_config['hardcoded_admin'];
+        
+        if ($email === $hardcoded_admin['email'] && $password === $hardcoded_admin['password']) {
+            // Hardcoded admin login
+            $_SESSION['user_id'] = 'admin_' . time(); // Unique admin ID
+            $_SESSION['username'] = 'Lee (Admin)';
+            $_SESSION['email'] = $email;
+            $_SESSION['is_hardcoded_admin'] = true;
+            
+            header("Location: dashboard.php");
+            exit;
+        } elseif ($user && password_verify($password, $user['password'])) {
+            // Regular user login
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
-
+            $_SESSION['email'] = $email;
+            $_SESSION['is_hardcoded_admin'] = false;
+            
             header("Location: dashboard.php");
             exit;
         } else {
